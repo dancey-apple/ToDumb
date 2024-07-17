@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
 
 export default function List() {
-    const [lists, setLists] = useState([]);
+    const [listItems, setListItems] = useState([]);
 
     useEffect(() => {
         async function loadData() {
             const res = await fetch('/api/list');
             const data = await res.json();
-            setLists(data.items);
+            setListItems(data.items);
         }
         loadData();
-        console.log("Items in your list: ", lists);
     }, []);
 
-    if (lists.length === 0) {
+    useEffect(() => {
+        console.log("Items in your list: ", listItems);
+    }, [listItems]);
+
+    if (listItems.length === 0) {
         return <h1>Loading...</h1>;
     };
 
     return (
         <div>
             <h1>These are the things you need TO DO!</h1>
-                {lists.map((item) => {
+                {listItems.map((item) => {
                     return (
                     <div
                         key={item.id}>{item.title}{item.summary}
